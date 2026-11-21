@@ -1,44 +1,56 @@
 # PROJET BIBLIO-IIT
 
-Application console de gestion de bibliothèque (Python + SQLite).
-Aucune bibliothèque externe n'est nécessaire.
+Application console de gestion de bibliothèque développée en **Python avec SQLite**.
 
-## Lancer
+## Lancement
 
-    python main.py
+```bash
+python main.py
+```
 
-Au premier lancement, la base `data/bibliotheque.db` est créée avec un catalogue
-de départ (22 livres). Les données sont conservées ensuite.
+Au premier lancement, la base de données `data/bibliotheque.db` est créée automatiquement avec 22 livres. Les données sont conservées après chaque utilisation.
 
-## Tester
+## Fonctionnalités
 
-    pip install pytest
-    pytest
+| Menu | Actions |
+|---|---|
+| Catalogue | Rechercher, lister, ajouter et modifier un livre |
+| Membres | Inscrire, consulter, lister et modifier un membre |
+| Emprunts | Emprunter, prolonger et rendre un livre |
+| Suivi | Consulter les emprunts en cours, les retards et l'historique |
+| Statistiques | Consulter le nombre de livres, d'emprunts, de retards et de membres |
 
-## Architecture
+## Règles de gestion
 
-    PROJET BIBLIO-IIT/
-    ├── main.py                  point d'entrée
-    ├── app/                     ce que fait l'application
-    │   ├── console.py           menus et saisies
-    │   ├── service.py           emprunter, rendre, prolonger...
-    │   ├── regles.py            durée, limite, retards, prolongation
-    │   └── modeles.py           Livre, Membre, Emprunt
-    ├── data/                    tout ce qui touche aux données
-    │   ├── depot_sqlite.py      requêtes SQL
-    │   ├── catalogue_initial.py livres chargés au premier lancement
-    │   └── bibliotheque.db      créée automatiquement (non versionnée)
-    └── tests/
-
-Appels : `console -> service -> regles` et `service -> depot_sqlite -> modeles`.
-La console ne parle jamais directement à la base.
-
-## Règles de la bibliothèque
-
+- Chaque livre possède un seul exemplaire et ne peut pas être emprunté s'il est déjà emprunté.
 - Durée d'emprunt : 14 jours.
-- 3 livres maximum en même temps par membre.
-- Prolongation : 1 fois (+14 jours), si le livre n'est pas en retard.
-- Un livre ne peut pas être emprunté s'il l'est déjà.
-- Pour rendre ou prolonger, il faut le code du livre ET le matricule de l'emprunteur.
-- Le matricule a le format IIT-01.
-- On peut modifier un livre (titre, auteur, année, catégorie) et le nom d'un membre ; le code du livre et le matricule ne changent pas.
+- Maximum 3 livres simultanément par membre.
+- Une seule prolongation de 14 jours, si l'emprunt n'est pas en retard.
+- Pour rendre ou prolonger un emprunt, le code du livre et le matricule du membre sont nécessaires.
+
+## Organisation du projet
+
+```text
+PROJET BIBLIO-IIT/
+├── main.py
+├── app/
+│   ├── console.py
+│   ├── service.py
+│   ├── regles.py
+│   └── modeles.py
+├── data/
+│   ├── depot_sqlite.py
+│   └── catalogue_initial.py
+└── tests/
+```
+
+- `main.py` : point d'entrée du programme.
+- `console.py` : menus et saisies utilisateur.
+- `service.py` : opérations de la bibliothèque.
+- `regles.py` : règles de gestion des emprunts.
+- `modeles.py` : modèles Livre, Membre et Emprunt.
+- `depot_sqlite.py` : accès à la base de données.
+- `catalogue_initial.py` : catalogue chargé au premier lancement.
+- `tests/` : tests automatisés.
+
+**Fonctionnement :** la console communique avec le service, qui applique les règles de gestion et utilise le dépôt SQLite pour accéder aux données. La console n'accède jamais directement à la base de données.
