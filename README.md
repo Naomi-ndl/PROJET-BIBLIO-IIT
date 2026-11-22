@@ -54,3 +54,5 @@ PROJET BIBLIO-IIT/
 - `tests/` : tests automatisés.
 
 **Fonctionnement :** la console communique avec le service, qui applique les règles de gestion et utilise le dépôt SQLite pour accéder aux données. La console n'accède jamais directement à la base de données.
+
+auteur:N'DOLI MOAYE MARIE EUNICE NAOMI
